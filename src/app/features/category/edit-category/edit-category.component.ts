@@ -6,11 +6,12 @@ import { Category } from '../models/category.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UpdateCategoryRequest } from '../models/update-category-request.model';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-edit-category',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MarkdownModule],
   templateUrl: './edit-category.component.html',
   styleUrl: './edit-category.component.css'
 })
