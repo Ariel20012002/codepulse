@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ImageService } from './image.service';
+import { Observable } from 'rxjs';
+import { BlogImage } from '../../models/blog-image.model';
 
 @Component({
   selector: 'app-image-selector',
@@ -10,13 +12,18 @@ import { ImageService } from './image.service';
   templateUrl: './image-selector.component.html',
   styleUrl: './image-selector.component.css'
 })
-export class ImageSelectorComponent {
+export class ImageSelectorComponent implements OnInit {
   private file?: File;
   fileName: string = '';
   title: string = '';
+  images$?: Observable<BlogImage[]>
 
   constructor(private imageService: ImageService) {
+    
+  }
 
+  ngOnInit(): void {
+    this.getImages();
   }
 
   onFileUploadChange(event: Event): void {
@@ -30,9 +37,13 @@ export class ImageSelectorComponent {
       this.imageService.uploadImage(this.file, this.fileName, this.title)
       .subscribe({
         next: (response) => {
-          console.log(response);
+          this.getImages();
         }
       });
     }    
+  }
+
+  private getImages() {
+    this.images$ = this.imageService.getAllImages();
   }
 }
