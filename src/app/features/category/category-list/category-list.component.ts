@@ -16,12 +16,28 @@ import { Observable } from 'rxjs';
 export class CategoryListComponent implements OnInit{
 
   categories$?: Observable<Category[]>;
+  totalCount? : number;
+  list: number[] = [];
+  pageNumber = 1;
+  pageSize = 5;
 
   constructor(private categoryService: CategoryService) {
   }
 
   ngOnInit(): void {
-    this.categories$ = this.categoryService.getAllCategories();
+    this.categoryService.getCategoryCount()
+    .subscribe({
+      next: (value) => {
+        this.totalCount = value;
+        this.categories$ = this.categoryService.getAllCategories(
+          undefined,
+          undefined,
+          undefined,
+          this.pageNumber,
+          this.pageSize
+        );
+      }
+    })
   }
 
   onSearch(query: string) {
