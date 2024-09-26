@@ -24,5 +24,7 @@ export class CategoryListComponent implements OnInit{
     this.categories$ = this.categoryService.getAllCategories();
   }
 
-  
+  onSearch(query: string) {
+    this.categories$ = this.categoryService.getAllCategories(query);
+  }
 }
